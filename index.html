@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chúc Mừng Sinh Nhật Chị Ngân 21 Tuổi 🎂</title>
+    <!-- Tải Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tải Google Fonts tiếng Việt đẹp & vui nhộn: Nunito & Quicksand -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Thư viện Canvas Confetti cho hiệu ứng pháo giấy -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Cấu hình cơ bản chống cuộn & tối ưu cảm ứng */
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100dvh;
+            overflow: hidden;
+            overscroll-behavior: none;
+            background: linear-gradient(135deg, #1a103c 0%, #2d1b54 50%, #1e1338 100%);
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .font-fredoka {
+            font-family: 'Nunito', sans-serif;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100dvh;
+            overflow: hidden;
+            overscroll-behavior: none;
+            background: linear-gradient(135deg, #1a103c 0%, #2d1b54 50%, #1e1338 100%);
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .font-fredoka {
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+
+        /* Khung mô phỏng điện thoại dọc chuẩn 9:16 trên PC và 100% tràn viền trên Mobile */
+        #app-frame {
+            width: 100%;
+            height: 100dvh;
+            max-width: 440px;
+            background: linear-gradient(180deg, #fff5f8 0%, #fef0f7 45%, #f3e8ff 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (min-width: 500px) {
+            #app-frame {
+                height: 92dvh;
+                max-height: 860px;
+                border-radius: 36px;
+                border: 8px solid #2e1d59;
+            }
+        }
+
+        /* Hiệu ứng chuyển màn hình mượt mà */
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.96) translateY(12px);
+            transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 10;
+        }
+
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+            z-index: 20;
+        }
+
+        /* Nút bấm 3D cực nảy */
+        .btn-party {
+            background: linear-gradient(135deg, #ff5e9c 0%, #ff2a7a 100%);
+            box-shadow: 0 6px 0 #c91458, 0 12px 20px rgba(255, 42, 122, 0.35);
+            transition: transform 0.12s ease, box-shadow 0.12s ease;
+        }
+
+        .btn-party:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #c91458, 0 6px 10px rgba(255, 42, 122, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            box-shadow: 0 5px 0 #4c1d95, 0 10px 18px rgba(109, 40, 217, 0.3);
+            transition: transform 0.12s ease, box-shadow 0.12s ease;
+        }
+
+        .btn-secondary:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #4c1d95;
+        }
+
+        /* Hiệu ứng ngọn lửa nến bập bùng */
+        @keyframes flicker {
+            0%, 100% { transform: translateX(-50%) scale(1) rotate(-2deg); opacity: 1; }
+            25% { transform: translateX(-50%) scale(1.08, 0.94) rotate(3deg); opacity: 0.92; }
+            50% { transform: translateX(-50%) scale(0.95, 1.08) rotate(-1deg); opacity: 1; }
+            75% { transform: translateX(-50%) scale(1.04, 0.96) rotate(2deg); opacity: 0.95; }
+        }
+
+        .candle-flame {
+            animation: flicker 0.6s infinite alternate ease-in-out;
+            transform-origin: bottom center;
+            filter: drop-shadow(0 0 10px #ff9800) drop-shadow(0 0 20px #ffeb3b);
+        }
+
+        /* Hiệu ứng khói bay lên khi tắt nến */
+        @keyframes smokeRise {
+            0% { transform: translate(-50%, 0) scale(0.5); opacity: 0.85; }
+            50% { transform: translate(-35%, -25px) scale(1.2); opacity: 0.5; }
+            100% { transform: translate(-65%, -55px) scale(1.8); opacity: 0; }
+        }
+
+        .smoke-puff {
+            animation: smokeRise 1.2s ease-out forwards;
+        }
+
+        /* Hiệu ứng hộp quà lắc lư mời gọi */
+        @keyframes giftWobble {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            15% { transform: rotate(-6deg) scale(1.04); }
+            30% { transform: rotate(6deg) scale(1.04); }
+            45% { transform: rotate(-4deg) scale(1.02); }
+            60% { transform: rotate(4deg) scale(1.02); }
+            75% { transform: rotate(0deg) scale(1); }
+        }
+
+        .gift-wobble {
+            animation: giftWobble 2.2s infinite ease-in-out;
+        }
+
+        .gift-wobble:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .gift-wobble:nth-child(3) {
+            animation-delay: 0.8s;
+        }
+
+        /* Hiệu ứng nền bong bóng bay nhẹ */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-14px) rotate(6deg); }
+        }
+
+        .floating-decor {
+            animation: floatSlow 4s infinite ease-in-out;
+        }
+
+        /* Hiệu ứng chữ nổi cộng điểm khi chơi game */
+        @keyframes scoreFloat {
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-45px) scale(1.25); opacity: 0; }
+        }
+
+        .floating-score {
+            position: absolute;
+            pointer-events: none;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            animation: scoreFloat 0.75s ease-out forwards;
+            z-index: 50;
+        }
+
+        /* Canvas game full container */
+        #catch-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app-frame">
+    <!-- Thanh điều khiển trên cùng: Nút âm thanh & Tiến trình tiệc -->
+    <header class="relative z-30 flex items-center justify-between px-5 pt-4 pb-2">
+        <div id="stage-badge" class="bg-white/85 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-sm border border-pink-100 flex items-center gap-1.5">
+            <span class="text-base">🎈</span>
+            <span id="stage-text" class="text-xs font-bold text-pink-600 tracking-wide uppercase">Khởi Động Tiệc</span>
+        </div>
+
+        <button id="sound-toggle" aria-label="Bật tắt âm thanh" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md shadow-md border border-pink-100 flex items-center justify-center text-lg active:scale-90 transition">
+            🔊
+        </button>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- MÀN HÌNH 1: CHÀO MỪNG ĐỘC QUYỀN CHỊ NGÂN   -->
+    <!-- ========================================== -->
+    <section id="screen-welcome" class="screen active justify-between pt-16 pb-8">
+        <!-- Họa tiết trang trí bay lơ lửng -->
+        <div class="absolute top-20 left-6 text-4xl floating-decor opacity-80 pointer-events-none">🎈</div>
+        <div class="absolute top-28 right-7 text-3xl floating-decor opacity-80 pointer-events-none" style="animation-delay: 1s;">✨</div>
+        <div class="absolute bottom-36 left-7 text-3xl floating-decor opacity-75 pointer-events-none" style="animation-delay: 1.8s;">🎊</div>
+        <div class="absolute bottom-40 right-6 text-4xl floating-decor opacity-80 pointer-events-none" style="animation-delay: 0.6s;">🎁</div>
+
+        <div class="flex flex-col items-center text-center my-auto px-2">
+            <div class="relative w-32 h-32 rounded-3xl bg-gradient-to-tr from-pink-400 via-rose-400 to-amber-300 p-1.5 shadow-xl mb-6 rotate-3">
+                <div class="w-full h-full bg-white rounded-[20px] flex flex-col items-center justify-center shadow-inner">
+                    <span class="text-6xl">🎂</span>
+                </div>
+                <span class="absolute -top-3 -right-3 bg-gradient-to-r from-amber-400 to-orange-500 text-white font-fredoka font-black text-base px-3 py-1 rounded-full shadow-md border-2 border-white">
+                    21+
+                </span>
+            </div>
+
+            <span class="inline-block bg-pink-100 text-pink-600 font-bold text-xs px-3.5 py-1.5 rounded-full mb-3 shadow-sm">
+                ✨ DÀNH RIÊNG CHO NGÂN ✨
+            </span>
+            <h1 class="font-fredoka text-3xl sm:text-4xl font-extrabold text-slate-800 leading-tight">
+                Chúc Mừng Sinh Nhật<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-amber-500">
+                    Tuổi 21 Của Ngân! 🎂✨
+                </span>
+            </h1>
+            <p class="text-slate-600 text-sm font-medium mt-3 max-w-[290px] leading-relaxed">
+                Háp pi boét đây two du
+            </p>
+        </div>
+
+        <!-- Nút bắt đầu -->
+        <div class="w-full">
+            <button id="btn-start-party" class="btn-party w-full py-4 px-4 rounded-2xl text-white font-fredoka text-lg sm:text-xl font-extrabold tracking-wide flex items-center justify-center gap-2">
+                <span>Bấm Để Bắt Đầu Tiệc Của Ngân 🎉</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- MÀN HÌNH 2: MINI GAME 1 - HỨNG BÁNH KEM    -->
+    <!-- ========================================== -->
+    <section id="screen-game1" class="screen pt-14 pb-4 px-4">
+        <!-- Bảng điểm & Thời gian -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-3 shadow-md border border-pink-100 flex items-center justify-between mb-2 z-20">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-xl">🍰</div>
+                <div>
+                    <div class="text-[10px] font-bold text-slate-400 uppercase">Điểm Tuổi 21</div>
+                    <div class="font-fredoka text-lg font-extrabold text-slate-800">
+                        <span id="g1-score" class="text-pink-600">0</span> / <span id="g1-target">21</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <div class="text-right">
+                    <div class="text-[10px] font-bold text-slate-400 uppercase">Thời Gian</div>
+                    <div id="g1-timer" class="font-fredoka text-lg font-extrabold text-purple-600">25s</div>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-xl">⏱️</div>
+            </div>
+        </div>
+
+        <!-- Khu vực chơi Game 1 -->
+        <div id="g1-arena" class="relative flex-1 w-full bg-gradient-to-b from-sky-100/70 via-pink-50/60 to-amber-50/80 rounded-3xl border-2 border-white shadow-inner overflow-hidden">
+            <canvas id="catch-canvas"></canvas>
+
+            <!-- Lớp phủ hướng dẫn trước khi chơi -->
+            <div id="g1-overlay" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-30">
+                <div class="bg-white rounded-3xl p-6 w-full max-w-[320px] shadow-2xl">
+                    <div class="text-5xl mb-3">🍽️🎂</div>
+                    <h2 class="font-fredoka text-2xl font-extrabold text-slate-800 mb-2">Ngân Hứng Bánh Nha!</h2>
+                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                        Ngân kéo đĩa sang trái/phải để hứng <b>Bánh Kem (+3)</b>, <b>Trà Sữa (+3)</b>, <b>Hộp Quà (+5)</b>. 21 tuổi rồi, né <b>Bom Khói 💣</b> với <b>Ớt Cay 🌶️</b> nhé Ngân ơi!
+                    </p>
+                    <div class="bg-pink-50 rounded-xl py-2 px-3 text-xs font-bold text-pink-600 mb-5">
+                        🎯 Mục tiêu: Đạt đủ 21 điểm mừng tuổi 21 của Ngân
+                    </div>
+                    <button id="btn-start-g1" class="btn-party w-full py-3.5 rounded-xl text-white font-fredoka text-lg font-extrabold">
+                        Ngân Sẵn Sàng! 🚀
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lớp phủ kết quả Game 1 -->
+            <div id="g1-result-overlay" class="hidden absolute inset-0 bg-slate-900/65 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-30">
+                <div class="bg-white rounded-3xl p-6 w-full max-w-[320px] shadow-2xl">
+                    <div id="g1-res-emoji" class="text-6xl mb-3">🎉</div>
+                    <h2 id="g1-res-title" class="font-fredoka text-2xl font-extrabold text-slate-800 mb-1">Đỉnh VÃI DÃ MAN!</h2>
+                    <p id="g1-res-desc" class="text-sm text-slate-600 mb-5">
+                        Ngân đã gom đủ nguyên liệu để mở khóa chiếc bánh sinh nhật tuổi 21 rồi ạ!
+                    </p>
+                    <button id="btn-g1-next" class="btn-party w-full py-3.5 rounded-xl text-white font-fredoka text-lg font-extrabold">
+                        Mở Khóa Bánh Tuổi 21 🎂
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- MÀN HÌNH 3: MINI GAME 2 - THỔI TẮT NẾN     -->
+    <!-- ========================================== -->
+    <section id="screen-game2" class="screen justify-between pt-16 pb-7">
+        <div class="text-center">
+            <span class="inline-block bg-amber-100 text-amber-700 font-bold text-xs px-3 py-1 rounded-full mb-2">
+                THỬ THÁCH 2: ƯỚC NGUYỆN TUỔI 21
+            </span>
+            <h2 class="font-fredoka text-2xl sm:text-3xl font-extrabold text-slate-800">
+                Thổi Nến Điii! 🕯️
+            </h2>
+            <p class="text-sm text-slate-500 mt-1">
+                Ngân chạm từng ngọn hoặc vuốt ngang qua để thổi tắt 5 ngọn nến tuổi 21 nhé!
+            </p>
+        </div>
+
+        <!-- Thanh tiến trình thổi nến -->
+        <div class="w-full max-w-[280px] mx-auto bg-white/80 rounded-full p-1.5 shadow-inner border border-pink-100">
+            <div id="candle-progress-bar" class="h-3 rounded-full bg-gradient-to-r from-amber-400 via-pink-500 to-purple-500 transition-all duration-300" style="width: 0%;"></div>
+        </div>
+
+        <!-- Khu vực Chiếc Bánh Sinh Nhật 3 Tầng Tương Tác -->
+        <div id="cake-touch-zone" class="relative flex-1 flex flex-col items-center justify-end pb-4 my-2 touch-none">
+            <!-- Topper số 21 lấp lánh trên đỉnh bánh -->
+            <div class="mb-2 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 text-slate-900 font-fredoka font-black text-xl px-4 py-0.5 rounded-full shadow-md border-2 border-white tracking-wider">
+                ✨ 21 ✨
+            </div>
+
+            <!-- Hàng 5 ngọn nến -->
+            <div id="candles-row" class="flex items-end justify-center gap-4 sm:gap-5 mb-[-6px] z-20 px-2">
+                <!-- Các ngọn nến sẽ được render bằng JS để tương tác mượt mà -->
+            </div>
+
+            <!-- Tầng bánh 1 (Trên cùng) -->
+            <div class="w-44 h-14 bg-gradient-to-b from-pink-200 to-pink-300 rounded-t-2xl border-b-4 border-pink-400/50 relative flex items-center justify-around px-3 shadow-md z-10">
+                <!-- Kem chảy -->
+                <div class="absolute top-0 left-0 right-0 h-4 bg-white rounded-t-2xl flex justify-around">
+                    <span class="w-4 h-6 bg-white rounded-b-full -mt-1"></span>
+                    <span class="w-5 h-7 bg-white rounded-b-full -mt-1"></span>
+                    <span class="w-4 h-5 bg-white rounded-b-full -mt-1"></span>
+                    <span class="w-5 h-6 bg-white rounded-b-full -mt-1"></span>
+                </div>
+                <span class="text-sm mt-3">🍓</span>
+                <span class="text-sm mt-3">🍒</span>
+                <span class="text-sm mt-3">🍓</span>
+            </div>
+
+            <!-- Tầng bánh 2 (Giữa) -->
+            <div class="w-56 h-16 bg-gradient-to-b from-purple-200 to-purple-300 rounded-t-2xl border-b-4 border-purple-400/50 relative flex items-center justify-around px-4 shadow-md z-10">
+                <div class="absolute top-0 left-0 right-0 h-4 bg-pink-50 rounded-t-2xl flex justify-around">
+                    <span class="w-5 h-6 bg-pink-50 rounded-b-full -mt-1"></span>
+                    <span class="w-4 h-7 bg-pink-50 rounded-b-full -mt-1"></span>
+                    <span class="w-6 h-6 bg-pink-50 rounded-b-full -mt-1"></span>
+                    <span class="w-4 h-6 bg-pink-50 rounded-b-full -mt-1"></span>
+                </div>
+                <span class="text-base mt-3">💖</span>
+                <span class="text-base mt-3">✨</span>
+                <span class="text-base mt-3">💖</span>
+            </div>
+
+            <!-- Tầng bánh 3 (Đáy) -->
+            <div class="w-[285px] h-20 bg-gradient-to-b from-amber-200 to-amber-300 rounded-t-2xl relative flex items-center justify-center shadow-lg z-10">
+                <div class="absolute top-0 left-0 right-0 h-5 bg-white rounded-t-2xl flex justify-around">
+                    <span class="w-5 h-7 bg-white rounded-b-full -mt-1"></span>
+                    <span class="w-6 h-8 bg-white rounded-b-full -mt-1"></span>
+                    <span class="w-5 h-6 bg-white rounded-b-full -mt-1"></span>
+                    <span class="w-6 h-8 bg-white rounded-b-full -mt-1"></span>
+                    <span class="w-5 h-7 bg-white rounded-b-full -mt-1"></span>
+                </div>
+                <div class="mt-4 bg-white/90 px-3.5 py-1 rounded-full shadow-sm border border-pink-100">
+                    <span id="cake-banner-name" class="font-fredoka text-xs sm:text-sm font-extrabold text-pink-600">Happy Birthday Ngân</span>
+                </div>
+            </div>
+
+            <!-- Đĩa đựng bánh -->
+            <div class="w-[310px] h-4 bg-gradient-to-r from-slate-200 via-white to-slate-200 rounded-full shadow-xl border border-slate-300"></div>
+        </div>
+
+        <div class="text-center">
+            <p id="candle-hint" class="text-xs font-bold text-pink-600 animate-pulse">
+                👆 Ngân chạm hoặc vuốt qua ngọn lửa để thổi tắt nhé! (Còn 5 ngọn)
+            </p>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- MÀN HÌNH 4: MINI GAME 3 - MỞ HỘP QUÀ GACHA -->
+    <!-- ========================================== -->
+    <section id="screen-game3" class="screen justify-between pt-16 pb-7">
+        <div class="text-center">
+            <span class="inline-block bg-purple-100 text-purple-700 font-bold text-xs px-3 py-1 rounded-full mb-2">
+                THỬ THÁCH 3: QUÀ TẶNG TUỔI 21
+            </span>
+            <h2 class="font-fredoka text-2xl sm:text-3xl font-extrabold text-slate-800">
+                Chọn 1 Hộp Quà Dành Riêng Cho Ngân! 🎁
+            </h2>
+            <p class="text-sm text-slate-500 mt-1">
+                Ngân chọn 1 trong 3 hộp bên dưới để khui đặc quyền sinh nhật nha!
+            </p>
+        </div>
+
+        <!-- 3 Hộp quà bí mật -->
+        <div id="gift-boxes-container" class="grid grid-cols-3 gap-3 my-auto px-1">
+            <button data-box="0" class="gift-box-btn gift-wobble bg-white/90 rounded-3xl p-4 shadow-lg border-2 border-pink-200 flex flex-col items-center justify-center aspect-[3/4] active:scale-95 transition">
+                <span class="text-5xl sm:text-6xl mb-2 drop-shadow">🎁</span>
+                <span class="font-fredoka text-xs font-extrabold text-pink-600 bg-pink-50 px-2.5 py-1 rounded-full">Hộp #1</span>
+            </button>
+
+            <button data-box="1" class="gift-box-btn gift-wobble bg-white/90 rounded-3xl p-4 shadow-lg border-2 border-purple-200 flex flex-col items-center justify-center aspect-[3/4] active:scale-95 transition">
+                <span class="text-5xl sm:text-6xl mb-2 drop-shadow">🎀</span>
+                <span class="font-fredoka text-xs font-extrabold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">Hộp #2</span>
+            </button>
+
+            <button data-box="2" class="gift-box-btn gift-wobble bg-white/90 rounded-3xl p-4 shadow-lg border-2 border-amber-200 flex flex-col items-center justify-center aspect-[3/4] active:scale-95 transition">
+                <span class="text-5xl sm:text-6xl mb-2 drop-shadow">🛍️</span>
+                <span class="font-fredoka text-xs font-extrabold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">Hộp #3</span>
+            </button>
+        </div>
+
+        <!-- Thẻ Voucher kết quả sau khi mở hộp -->
+        <div id="voucher-reveal" class="hidden bg-white rounded-3xl p-5 shadow-xl border-2 border-dashed border-pink-400 text-center relative overflow-hidden">
+            <div class="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-purple-100"></div>
+            <div class="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-purple-100"></div>
+
+            <div class="text-xs font-bold text-pink-500 uppercase tracking-widest mb-1">🎟️ ĐẶC QUYỀN TUỔI 21 CỦA NGÂN 🎟️</div>
+            <div id="voucher-emoji" class="text-5xl my-2">🧋</div>
+            <h3 id="voucher-title" class="font-fredoka text-xl font-extrabold text-slate-800 leading-snug">
+                Voucher 1 Chầu Trà Sữa Full Topping
+            </h3>
+            <p id="voucher-desc" class="text-xs text-slate-500 mt-1">
+                Có hiệu lực vô thời hạn. Ngân chụp màn hình lại để đòi quà em ngay nhé!
+            </p>
+        </div>
+
+        <!-- Các nút điều hướng dưới cùng -->
+        <div id="g3-actions" class="flex flex-col gap-2.5">
+            <button id="btn-reroll-gift" class="hidden btn-secondary w-full py-3 rounded-2xl text-white font-fredoka text-base font-extrabold">
+                🔄 Cho Ngân Chọn Lại Hộp Khác
+            </button>
+            <button id="btn-to-card" class="hidden btn-party w-full py-3.5 rounded-2xl text-white font-fredoka text-lg font-extrabold">
+                Mở Thiệp Chúc Mừng Ngân 💌
+            </button>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- MÀN HÌNH 5: THIỆP CHÚC MỪNG CHỊ NGÂN       -->
+    <!-- ========================================== -->
+    <section id="screen-card" class="screen justify-between pt-14 pb-6 overflow-y-auto">
+        <!-- Thiệp chúc mừng lung linh -->
+        <div id="birthday-card-capture" class="bg-gradient-to-br from-white via-pink-50 to-purple-50 rounded-3xl p-5 shadow-xl border-2 border-pink-200 relative overflow-hidden my-auto">
+            <!-- Dải cờ trang trí -->
+            <div class="flex justify-center gap-1.5 text-lg mb-2">
+                <span>🎊</span><span>🎂</span><span>🎈</span><span>✨</span><span>🎁</span>
+            </div>
+
+            <div class="text-center">
+                <p class="text-xs font-bold text-pink-500 uppercase tracking-widest">Mừng Sinh Nhật Tuổi 21</p>
+                <h2 class="font-fredoka text-2xl sm:text-3xl font-extrabold text-slate-800 mt-0.5 mb-3">
+                    Ngân Xinh Đẹp 💖
+                </h2>
+            </div>
+
+            <div class="bg-white/90 rounded-2xl p-4 text-sm text-slate-700 leading-relaxed space-y-2.5 shadow-sm border border-pink-100">
+                <p>
+                    Chúc mừng sinh nhật tuổi 21 của <b class="text-pink-600">Ngân</b>! 🥳 Bước sang tuổi mới, chúc Ngân luôn giữ mãi nét rạng rỡ, xinh đẹp, nụ cười tươi tắn và tràn đầy năng lượng tích cực.
+                </p>
+                <p>
+                    Mong rằng mọi dự định trong học tập và công việc của Ngân ở tuổi 21 đều suôn sẻ, hanh thông, vạn sự như ý, gặp thật nhiều may mắn và luôn vui vẻ hạnh phúc nhé Ngân ơi! ✨🌷
+                </p>
+            </div>
+
+            <!-- Hiển thị Voucher đã trúng trên thiệp -->
+            <div class="mt-3 bg-gradient-to-r from-amber-100/80 to-pink-100/80 rounded-2xl p-3 border border-amber-200 flex items-center gap-3">
+                <span id="card-voucher-icon" class="text-3xl">🧋</span>
+                <div class="text-left">
+                    <div class="text-[10px] font-bold text-amber-700 uppercase">Quà Ngân Đã Chốt Đơn:</div>
+                    <div id="card-voucher-text" class="font-fredoka text-sm font-extrabold text-slate-800">
+                        Voucher 1 Chầu Trà Sữa Full Topping
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thông báo toast copy/lưu -->
+        <div id="toast-msg" class="opacity-0 transition-opacity duration-300 text-center text-xs font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 py-2 px-4 rounded-full mx-auto my-2">
+            ✅ Đã sao chép phiếu đòi quà của Ngân!
+        </div>
+
+        <!-- Các nút hành động cuối -->
+        <div class="grid grid-cols-2 gap-2.5 mt-1">
+            <button id="btn-share-card" class="btn-party py-3.5 px-2.5 rounded-2xl text-white font-fredoka text-xs sm:text-sm font-extrabold flex items-center justify-center gap-1">
+                <span>📤</span>
+                <span>Gửi Phiếu Đòi Quà</span>
+            </button>
+            <button id="btn-restart-all" class="btn-secondary py-3.5 px-2.5 rounded-2xl text-white font-fredoka text-xs sm:text-sm font-extrabold flex items-center justify-center gap-1">
+                <span>🔄</span>
+                <span>Chơi Lại Tiệc Của Ngân</span>
+            </button>
+        </div>
+    </section>
+</div>
+
+<script>
+/**
+ * ============================================================================
+ * 1. HỆ THỐNG ÂM THANH TỔNG HỢP (WEB AUDIO API - KHÔNG CẦN FILE MP3 NGOÀI)
+ * ============================================================================
+ */
+class SoundEngine {
+    constructor() {
+        this.ctx = null;
+        this.muted = false;
+        this.bgmInterval = null;
+        this.isPlayingBgm = false;
+    }
+
+    init() {
+        if (!this.ctx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            this.ctx = new AudioContext();
+        }
+        if (this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+    }
+
+    toggleMute() {
+        this.muted = !this.muted;
+        const btn = document.getElementById('sound-toggle');
+        btn.textContent = this.muted ? '🔇' : '🔊';
+        if (this.muted) {
+            this.stopBgm();
+        } else {
+            this.init();
+            this.startBgm();
+        }
+    }
+
+    playTone(freq, type = 'sine', duration = 0.2, volume = 0.15, delay = 0) {
+        if (this.muted) return;
+        this.init();
+        const now = this.ctx.currentTime + delay;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, now);
+
+        gain.gain.setValueAtTime(volume, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + duration);
+    }
+
+    // Hiệu ứng âm thanh hứng vật phẩm tốt
+    playCatchGood() {
+        this.playTone(587.33, 'sine', 0.12, 0.18, 0);     // D5
+        this.playTone(880, 'triangle', 0.18, 0.18, 0.06); // A5
+    }
+
+    // Hiệu ứng âm thanh trúng bom/ớt
+    playCatchBad() {
+        this.playTone(160, 'sawtooth', 0.25, 0.22, 0);
+        this.playTone(110, 'sawtooth', 0.3, 0.22, 0.08);
+    }
+
+    // Hiệu ứng tiếng thổi tắt nến (nhiễu trắng nhẹ + nốt trầm)
+    playBlowCandle() {
+        if (this.muted) return;
+        this.init();
+        const bufferSize = this.ctx.sampleRate * 0.25;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            data[i] = Math.random() * 2 - 1;
+        }
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 800;
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.25);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+        noise.start();
+    }
+
+    // Hiệu ứng chiến thắng / pháo hoa / vỗ tay
+    playFanfare() {
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5 E5 G5 C6
+        notes.forEach((n, idx) => {
+            this.playTone(n, 'triangle', 0.28, 0.2, idx * 0.1);
+        });
+    }
+
+    // Nhạc nền giai điệu Happy Birthday vui nhộn nhẹ nhàng
+    startBgm() {
+        if (this.muted || this.isPlayingBgm) return;
+        this.init();
+        this.isPlayingBgm = true;
+
+        // Giai điệu Happy Birthday (tần số Hz, nhịp)
+        const melody = [
+            { f: 261.63, d: 0.3 }, { f: 261.63, d: 0.3 }, { f: 293.66, d: 0.6 }, { f: 261.63, d: 0.6 }, { f: 349.23, d: 0.6 }, { f: 329.63, d: 1.0 },
+            { f: 261.63, d: 0.3 }, { f: 261.63, d: 0.3 }, { f: 293.66, d: 0.6 }, { f: 261.63, d: 0.6 }, { f: 392.00, d: 0.6 }, { f: 349.23, d: 1.0 },
+            { f: 261.63, d: 0.3 }, { f: 261.63, d: 0.3 }, { f: 523.25, d: 0.6 }, { f: 440.00, d: 0.6 }, { f: 349.23, d: 0.6 }, { f: 329.63, d: 0.6 }, { f: 293.66, d: 1.0 },
+            { f: 466.16, d: 0.3 }, { f: 466.16, d: 0.3 }, { f: 440.00, d: 0.6 }, { f: 349.23, d: 0.6 }, { f: 392.00, d: 0.6 }, { f: 349.23, d: 1.1 }
+        ];
+
+        let step = 0;
+        const playNextNote = () => {
+            if (!this.isPlayingBgm || this.muted) return;
+            const note = melody[step % melody.length];
+            this.playTone(note.f, 'sine', note.d * 0.85, 0.06, 0);
+            step++;
+            this.bgmInterval = setTimeout(playNextNote, note.d * 650);
+        };
+        playNextNote();
+    }
+
+    stopBgm() {
+        this.isPlayingBgm = false;
+        if (this.bgmInterval) clearTimeout(this.bgmInterval);
+    }
+}
+
+const sound = new SoundEngine();
+
+/**
+ * ============================================================================
+ * 2. QUẢN LÝ TRẠNG THÁI ỨNG DỤNG & CHUYỂN MÀN HÌNH
+ * ============================================================================
+ */
+const AppState = {
+    recipientName: 'Chị Ngân',
+    age: 21,
+    selectedVoucher: {
+        emoji: '🧋',
+        title: 'Voucher 1 Chầu Trà Sữa Full Topping',
+        desc: 'Có hiệu lực vô thời hạn. Chị Ngân chụp màn hình lại để đòi quà em ngay nhé!'
+    }
+};
+
+// Hàm rung phản hồi xúc giác (Haptic Feedback)
+function triggerHaptic(pattern = 25) {
+    if (navigator.vibrate) {
+        try { navigator.vibrate(pattern); } catch (e) {}
+    }
+}
+
+// Hiệu ứng bắn pháo hoa Confetti
+function fireConfetti(intensity = 'normal') {
+    if (typeof confetti !== 'function') return;
+    if (intensity === 'big') {
+        confetti({ particleCount: 90, spread: 80, origin: { y: 0.6 } });
+        setTimeout(() => {
+            confetti({ particleCount: 60, angle: 60, spread: 55, origin: { x: 0 } });
+            confetti({ particleCount: 60, angle: 120, spread: 55, origin: { x: 1 } });
+        }, 250);
+    } else {
+        confetti({ particleCount: 45, spread: 60, origin: { y: 0.7 } });
+    }
+}
+
+// Chuyển đổi giữa các màn hình
+function goToScreen(screenId, stageLabel) {
+    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+    const target = document.getElementById(screenId);
+    if (target) target.classList.add('active');
+    if (stageLabel) {
+        document.getElementById('stage-text').textContent = stageLabel;
+    }
+    triggerHaptic(20);
+}
+
+// Nút bật/tắt âm thanh
+document.getElementById('sound-toggle').addEventListener('click', () => {
+    sound.toggleMute();
+});
+
+// Nút Bắt đầu tiệc ở màn hình 1
+document.getElementById('btn-start-party').addEventListener('click', () => {
+    sound.init();
+    sound.startBgm();
+    sound.playFanfare();
+    fireConfetti('big');
+
+    goToScreen('screen-game1', 'Game 1: Hứng Bánh');
+    resizeCatchCanvas();
+});
+
+/**
+ * ============================================================================
+ * 3. MINI GAME 1: THỬ THÁCH HỨNG BÁNH KEM (MỤC TIÊU 21 ĐIỂM TUỔI 21)
+ * ============================================================================
+ */
+const canvas = document.getElementById('catch-canvas');
+const ctx = canvas.getContext('2d');
+const arena = document.getElementById('g1-arena');
+
+let g1State = {
+    running: false,
+    score: 0,
+    target: 21,
+    timeLeft: 25,
+    plateX: 0,
+    plateWidth: 86,
+    plateHeight: 22,
+    items: [],
+    lastSpawn: 0,
+    timerInterval: null,
+    animFrame: null
+};
+
+const ITEM_TYPES = [
+    { emoji: '🍰', points: 3, good: true, speed: 3.3 },
+    { emoji: '🧋', points: 3, good: true, speed: 3.5 },
+    { emoji: '🎁', points: 5, good: true, speed: 4.0 },
+    { emoji: '🎈', points: 2, good: true, speed: 2.8 },
+    { emoji: '💣', points: -4, good: false, speed: 3.8 },
+    { emoji: '🌶️', points: -3, good: false, speed: 3.6 }
+];
+
+function resizeCatchCanvas() {
+    if (!arena) return;
+    const rect = arena.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    g1State.plateX = canvas.width / 2;
+}
+
+window.addEventListener('resize', resizeCatchCanvas);
+
+// Điều khiển đĩa bằng cảm ứng & chuột
+function updatePlatePosition(clientX) {
+    if (!g1State.running) return;
+    const rect = canvas.getBoundingClientRect();
+    let relX = clientX - rect.left;
+    const halfPlate = g1State.plateWidth / 2;
+    relX = Math.max(halfPlate + 8, Math.min(canvas.width - halfPlate - 8, relX));
+    g1State.plateX = relX;
+}
+
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    if (e.touches.length > 0) updatePlatePosition(e.touches[0].clientX);
+}, { passive: false });
+
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (e.touches.length > 0) updatePlatePosition(e.touches[0].clientX);
+}, { passive: false });
+
+canvas.addEventListener('mousemove', (e) => {
+    if (e.buttons === 1 || g1State.running) updatePlatePosition(e.clientX);
+});
+
+// Hiển thị điểm bay lên tại vị trí hứng
+function spawnFloatingText(x, y, text, color) {
+    const el = document.createElement('div');
+    el.className = 'floating-score';
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
+    el.style.color = color;
+    el.style.fontSize = '20px';
+    el.textContent = text;
+    arena.appendChild(el);
+    setTimeout(() => el.remove(), 750);
+}
+
+function startCatchGame() {
+    resizeCatchCanvas();
+    document.getElementById('g1-overlay').classList.add('hidden');
+    document.getElementById('g1-result-overlay').classList.add('hidden');
+
+    g1State.running = true;
+    g1State.score = 0;
+    g1State.timeLeft = 25;
+    g1State.items = [];
+    g1State.lastSpawn = performance.now();
+
+    document.getElementById('g1-score').textContent = '0';
+    document.getElementById('g1-timer').textContent = '25s';
+
+    if (g1State.timerInterval) clearInterval(g1State.timerInterval);
+    g1State.timerInterval = setInterval(() => {
+        if (!g1State.running) return;
+        g1State.timeLeft--;
+        document.getElementById('g1-timer').textContent = `${g1State.timeLeft}s`;
+        if (g1State.timeLeft <= 0) {
+            endCatchGame();
+        }
+    }, 1000);
+
+    g1State.animFrame = requestAnimationFrame(loopCatchGame);
+}
+
+function loopCatchGame(timestamp) {
+    if (!g1State.running) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Sinh vật phẩm rơi mới mỗi 480ms
+    if (timestamp - g1State.lastSpawn > 480) {
+        const template = ITEM_TYPES[Math.floor(Math.random() * ITEM_TYPES.length)];
+        const margin = 30;
+        g1State.items.push({
+            ...template,
+            x: margin + Math.random() * (canvas.width - margin * 2),
+            y: -30,
+            radius: 22,
+            vy: template.speed * (canvas.height / 520)
+        });
+        g1State.lastSpawn = timestamp;
+    }
+
+    const plateY = canvas.height - 42;
+
+    // Vẽ chiếc đĩa hứng bánh
+    ctx.save();
+    // Đổ bóng đĩa
+    ctx.beginPath();
+    ctx.ellipse(g1State.plateX, plateY + 12, g1State.plateWidth * 0.45, 6, 0, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    ctx.fill();
+
+    // Thân đĩa
+    const grad = ctx.createLinearGradient(g1State.plateX - g1State.plateWidth/2, plateY, g1State.plateX + g1State.plateWidth/2, plateY + 16);
+    grad.addColorStop(0, '#ff7eb3');
+    grad.addColorStop(0.5, '#ff477e');
+    grad.addColorStop(1, '#ff7eb3');
+
+    ctx.beginPath();
+    ctx.roundRect(g1State.plateX - g1State.plateWidth / 2, plateY, g1State.plateWidth, 16, 10);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Viền sáng trên đĩa
+    ctx.beginPath();
+    ctx.roundRect(g1State.plateX - g1State.plateWidth / 2 + 6, plateY + 3, g1State.plateWidth - 12, 4, 4);
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.fill();
+    ctx.restore();
+
+    // Cập nhật & vẽ các vật phẩm rơi
+    ctx.font = '34px serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    for (let i = g1State.items.length - 1; i >= 0; i--) {
+        const item = g1State.items[i];
+        item.y += item.vy;
+
+        ctx.fillText(item.emoji, item.x, item.y);
+
+        // Kiểm tra va chạm với đĩa
+        const hitX = Math.abs(item.x - g1State.plateX) < (g1State.plateWidth / 2 + 14);
+        const hitY = item.y + 14 >= plateY && item.y - 14 <= plateY + 18;
+
+        if (hitX && hitY) {
+            g1State.score = Math.max(0, g1State.score + item.points);
+            document.getElementById('g1-score').textContent = g1State.score;
+
+            if (item.good) {
+                sound.playCatchGood();
+                triggerHaptic(18);
+                spawnFloatingText(item.x, plateY - 20, `+${item.points}`, '#10b981');
+            } else {
+                sound.playCatchBad();
+                triggerHaptic([40, 30, 40]);
+                spawnFloatingText(item.x, plateY - 20, `${item.points}`, '#ef4444');
+            }
+
+            g1State.items.splice(i, 1);
+
+            // Đạt đủ 21 điểm mừng tuổi 21 của chị Ngân thì hoàn thành ngay!
+            if (g1State.score >= g1State.target) {
+                endCatchGame();
+                return;
+            }
+            continue;
+        }
+
+        // Xóa nếu rơi khỏi đáy
+        if (item.y > canvas.height + 40) {
+            g1State.items.splice(i, 1);
+        }
+    }
+
+    g1State.animFrame = requestAnimationFrame(loopCatchGame);
+}
+
+function endCatchGame() {
+    g1State.running = false;
+    clearInterval(g1State.timerInterval);
+    cancelAnimationFrame(g1State.animFrame);
+
+    const resOverlay = document.getElementById('g1-result-overlay');
+    const resEmoji = document.getElementById('g1-res-emoji');
+    const resTitle = document.getElementById('g1-res-title');
+    const resDesc = document.getElementById('g1-res-desc');
+    const nextBtn = document.getElementById('btn-g1-next');
+
+    resOverlay.classList.remove('hidden');
+
+    if (g1State.score >= g1State.target) {
+        sound.playFanfare();
+        fireConfetti('normal');
+        resEmoji.textContent = '🎂✨';
+        resTitle.textContent = `Đỉnh Quá Chị Ngân Ơi! (${g1State.score} điểm)`;
+        resDesc.textContent = 'Chị Ngân đã gom đủ 21 điểm để mở khóa chiếc bánh sinh nhật tuổi 21 rồi ạ!';
+        nextBtn.textContent = 'Mở Khóa Bánh Tuổi 21 🎂';
+        nextBtn.onclick = () => {
+            initCandlesGame();
+            goToScreen('screen-game2', 'Game 2: Thổi Nến');
+        };
+    } else {
+        sound.playCatchBad();
+        resEmoji.textContent = '😅';
+        resTitle.textContent = `Thiếu Xíu Nữa Chị Ơi! (${g1State.score}/${g1State.target})`;
+        resDesc.textContent = 'Bánh kem rơi hơi nhanh đúng không chị? Chị thử lại một lượt nữa để mở bánh nha!';
+        nextBtn.textContent = 'Chơi Lại Lượt Này 🔄';
+        nextBtn.onclick = startCatchGame;
+    }
+}
+
+document.getElementById('btn-start-g1').addEventListener('click', startCatchGame);
+
+/**
+ * ============================================================================
+ * 4. MINI GAME 2: THỔI TẮT 5 NGỌN NẾN (CHẠM / VUỐT LIÊN HOÀN)
+ * ============================================================================
+ */
+let candlesState = [true, true, true, true, true]; // true = đang cháy
+
+function initCandlesGame() {
+    candlesState = [true, true, true, true, true];
+    const row = document.getElementById('candles-row');
+    row.innerHTML = '';
+
+    const candleColors = [
+        'from-pink-400 to-rose-500',
+        'from-sky-400 to-blue-500',
+        'from-amber-400 to-orange-500',
+        'from-purple-400 to-indigo-500',
+        'from-emerald-400 to-teal-500'
+    ];
+
+    candlesState.forEach((_, idx) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'candle-item relative flex flex-col items-center cursor-pointer px-1.5 pt-8';
+        wrapper.dataset.index = idx;
+
+        wrapper.innerHTML = `
+            <!-- Ngọn lửa -->
+            <div id="flame-${idx}" class="candle-flame absolute top-1 left-1/2 -translate-x-1/2 w-5 h-7 bg-gradient-to-t from-orange-500 via-amber-300 to-yellow-100 rounded-full rounded-t-[50%_70%] transition-opacity duration-200">
+                <div class="w-2 h-3 bg-white rounded-full mx-auto mt-3 opacity-80"></div>
+            </div>
+            <!-- Khói (ẩn ban đầu) -->
+            <div id="smoke-${idx}" class="hidden absolute top-0 left-1/2 text-lg pointer-events-none">💨</div>
+            <!-- Bấc nến -->
+            <div class="w-1 h-2 bg-slate-700 rounded-t-sm"></div>
+            <!-- Thân nến -->
+            <div class="w-4 h-14 rounded-t-md bg-gradient-to-b ${candleColors[idx]} shadow-md border-x border-white/40 relative overflow-hidden">
+                <div class="w-full h-2 bg-white/30 mt-2 -rotate-12"></div>
+                <div class="w-full h-2 bg-white/30 mt-3 -rotate-12"></div>
+                <div class="w-full h-2 bg-white/30 mt-3 -rotate-12"></div>
+            </div>
+        `;
+
+        // Chạm trực tiếp vào nến
+        wrapper.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            extinguishCandle(idx);
+        });
+
+        row.appendChild(wrapper);
+    });
+
+    updateCandleProgress();
+}
+
+// Hỗ trợ vuốt ngón tay ngang qua các ngọn nến để thổi tắt
+const cakeZone = document.getElementById('cake-touch-zone');
+cakeZone.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (targetEl) {
+        const candleEl = targetEl.closest('.candle-item');
+        if (candleEl) {
+            const idx = parseInt(candleEl.dataset.index, 10);
+            extinguishCandle(idx);
+        }
+    }
+}, { passive: false });
+
+function extinguishCandle(idx) {
+    if (!candlesState[idx]) return; // Đã tắt rồi
+    candlesState[idx] = false;
+
+    sound.playBlowCandle();
+    triggerHaptic(35);
+
+    const flame = document.getElementById(`flame-${idx}`);
+    const smoke = document.getElementById(`smoke-${idx}`);
+
+    if (flame) {
+        flame.style.opacity = '0';
+        flame.style.transform = 'translateX(-50%) scale(0)';
+    }
+    if (smoke) {
+        smoke.classList.remove('hidden');
+        smoke.classList.add('smoke-puff');
+    }
+
+    updateCandleProgress();
+
+    // Kiểm tra xem đã tắt hết 5 ngọn chưa
+    const remaining = candlesState.filter(Boolean).length;
+    if (remaining === 0) {
+        setTimeout(() => {
+            sound.playFanfare();
+            fireConfetti('big');
+            triggerHaptic([50, 40, 80]);
+            resetGiftBoxes();
+            goToScreen('screen-game3', 'Game 3: Mở Hộp Quà');
+        }, 700);
+    }
+}
+
+function updateCandleProgress() {
+    const blownCount = candlesState.filter(c => !c).length;
+    const percent = (blownCount / candlesState.length) * 100;
+    document.getElementById('candle-progress-bar').style.width = `${percent}%`;
+
+    const remaining = 5 - blownCount;
+    const hint = document.getElementById('candle-hint');
+    if (remaining > 0) {
+        hint.textContent = `👆 Chị Ngân chạm hoặc vuốt qua ngọn lửa để thổi tắt nhé! (Còn ${remaining} ngọn)`;
+    } else {
+        hint.textContent = '🎉 Tuyệt vời! Điều ước tuổi 21 của chị Ngân đã được gửi đi!';
+    }
+}
+
+/**
+ * ============================================================================
+ * 5. MINI GAME 3: MỞ HỘP QUÀ BÍ MẬT (ĐẶC QUYỀN TUỔI 21 CỦA CHỊ NGÂN)
+ * ============================================================================
+ */
+const FUNNY_VOUCHERS = [
+    {
+        emoji: '🧋',
+        title: 'Voucher 1 Chầu Trà Sữa Full Topping',
+        desc: 'Size L, trân châu đầy ú ụ, em thanh toán 100% cho chị Ngân nha!'
+    },
+    {
+        emoji: '👑',
+        title: 'Thẻ Miễn Chê & Luôn Đúng',
+        desc: 'Đặc quyền tuổi 21: Chị Ngân luôn đúng trong mọi tình huống!'
+    },
+    {
+        emoji: '🍽️',
+        title: 'Vé Đi Ăn Món Chị Ngân Thích',
+        desc: 'Chị Ngân chỉ việc chọn quán ngon, mọi thứ còn lại cứ để em lo!'
+    },
+    {
+        emoji: '🌠',
+        title: '1 Điều Ước Bất Kỳ Từ Em',
+        desc: 'Chị Ngân cứ nói điều chị muốn, em sẽ thực hiện ngay trong khả năng ạ!'
+    },
+    {
+        emoji: '🛍️',
+        title: 'Voucher Nuông Chiều Bản Thân',
+        desc: 'Chị Ngân được quyền nghỉ ngơi, ăn ngon mặc đẹp cả ngày hôm nay!'
+    }
+];
+
+let lastVoucherIndex = -1;
+
+function resetGiftBoxes() {
+    document.getElementById('voucher-reveal').classList.add('hidden');
+    document.getElementById('btn-reroll-gift').classList.add('hidden');
+    document.getElementById('btn-to-card').classList.add('hidden');
+
+    document.querySelectorAll('.gift-box-btn').forEach((btn, idx) => {
+        btn.disabled = false;
+        btn.classList.remove('opacity-40', 'scale-90', 'ring-4', 'ring-pink-400');
+        btn.classList.add('gift-wobble');
+        const icons = ['🎁', '🎀', '🛍️'];
+        btn.querySelector('span:first-child').textContent = icons[idx];
+    });
+}
+
+document.querySelectorAll('.gift-box-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Chọn ngẫu nhiên voucher không trùng lặp ngay lập tức
+        let randIdx;
+        do {
+            randIdx = Math.floor(Math.random() * FUNNY_VOUCHERS.length);
+        } while (randIdx === lastVoucherIndex && FUNNY_VOUCHERS.length > 1);
+        lastVoucherIndex = randIdx;
+
+        const chosen = FUNNY_VOUCHERS[randIdx];
+        AppState.selectedVoucher = chosen;
+
+        // Hiệu ứng mở hộp
+        document.querySelectorAll('.gift-box-btn').forEach(other => {
+            other.classList.remove('gift-wobble');
+            if (other !== btn) {
+                other.classList.add('opacity-40', 'scale-90');
+            } else {
+                other.classList.add('ring-4', 'ring-pink-400');
+                other.querySelector('span:first-child').textContent = '🎊';
+            }
+        });
+
+        // Cập nhật giao diện Voucher
+        document.getElementById('voucher-emoji').textContent = chosen.emoji;
+        document.getElementById('voucher-title').textContent = chosen.title;
+        document.getElementById('voucher-desc').textContent = chosen.desc;
+
+        document.getElementById('voucher-reveal').classList.remove('hidden');
+        document.getElementById('btn-reroll-gift').classList.remove('hidden');
+        document.getElementById('btn-to-card').classList.remove('hidden');
+
+        sound.playFanfare();
+        fireConfetti('normal');
+        triggerHaptic([30, 30, 50]);
+    });
+});
+
+document.getElementById('btn-reroll-gift').addEventListener('click', () => {
+    triggerHaptic(20);
+    resetGiftBoxes();
+});
+
+document.getElementById('btn-to-card').addEventListener('click', () => {
+    // Đồng bộ quà trúng thưởng lên thiệp cuối cùng
+    document.getElementById('card-voucher-icon').textContent = AppState.selectedVoucher.emoji;
+    document.getElementById('card-voucher-text').textContent = AppState.selectedVoucher.title;
+
+    sound.playFanfare();
+    fireConfetti('big');
+    goToScreen('screen-card', 'Thiệp Chúc Mừng');
+});
+
+/**
+ * ============================================================================
+ * 6. MÀN HÌNH 5: CHIA SẺ / SAO CHÉP KỶ NIỆM & CHƠI LẠI
+ * ============================================================================
+ */
+document.getElementById('btn-share-card').addEventListener('click', async () => {
+    const shareText = `🎂 Chúc mừng sinh nhật tuổi 21 của chị Ngân!\n🎁 Chị Ngân vừa mở hộp quà sinh nhật và trúng: "${AppState.selectedVoucher.title}" ${AppState.selectedVoucher.emoji}!\nChị gửi phiếu này cho em để nhận quà ngay nhé! 🥳`;
+
+    triggerHaptic(25);
+
+    // Ưu tiên Web Share API trên điện thoại nếu hỗ trợ
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: `Chúc Mừng Sinh Nhật ${AppState.recipientName}!`,
+                text: shareText
+            });
+            return;
+        } catch (err) {
+            // Người dùng hủy chia sẻ hoặc không hỗ trợ -> fallback copy
+        }
+    }
+
+    // Fallback sao chép vào clipboard an toàn qua execCommand
+    const tempInput = document.createElement('textarea');
+    tempInput.value = shareText;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    try {
+        document.execCommand('copy');
+        const toast = document.getElementById('toast-msg');
+        toast.classList.remove('opacity-0');
+        setTimeout(() => toast.classList.add('opacity-0'), 2800);
+    } catch (e) {}
+    document.body.removeChild(tempInput);
+});
+
+document.getElementById('btn-restart-all').addEventListener('click', () => {
+    triggerHaptic(20);
+    // Reset giao diện Game 1 về màn hình hướng dẫn
+    document.getElementById('g1-overlay').classList.remove('hidden');
+    document.getElementById('g1-result-overlay').classList.add('hidden');
+    goToScreen('screen-welcome', 'Khởi Động Tiệc');
+});
+</script>
+</body>
+</html>
